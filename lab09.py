@@ -10,26 +10,43 @@
 
 def two_sum(nums, target):
     # Outline (write your plan here first):
-    #   ...
-    # TODO: return the indices [i, j] (i < j) of the two numbers in `nums` that add up
-    #   to `target`. Assume there is exactly one answer.
-    pass
+    #   loop through twice and compare sum to target sum
+    
+    for i in range(len(nums)):
+        for j in range(len(nums)):
+            if nums[i] + nums[j] == target and i < j:
+                return [i,j]
 
 
 def max_profit(prices):
     # Outline:
-    #   ...
-    # TODO: `prices[i]` is a stock price on day i. Return the most profit obtainable by
-    #   buying on one day and selling on a LATER day. If no profit is possible, return 0.
-    pass
+    #   go through each day and record the highest profit if sold on another day
+
+    highestProfit = 0
+    for i in range(len(prices)):
+        for j in range(len(prices)):
+            if prices[j] - prices[i] > highestProfit and j > i:
+                highestProfit = prices[j] - prices[i]
+
+    return highestProfit
 
 
 def max_subarray(nums):
     # Outline:
-    #   ...
-    # TODO: return the largest sum of any contiguous (in-a-row) block of numbers in
-    #   `nums`. The list has at least one number.
-    pass
+    #   go through each value and record the highest value given by adding contiguous values
+    maxVal = nums[0]
+    for i in range(len(nums)):
+        currentTotal = 0
+        for j in range(len(nums)):
+            if j >= i:
+                currentTotal += nums[j]
+
+                if currentTotal > maxVal:
+                    maxVal = currentTotal
+
+
+    return maxVal
+            
 
 
 def is_balanced(s):   # Part 4 - stretch (optional)
@@ -37,12 +54,33 @@ def is_balanced(s):   # Part 4 - stretch (optional)
     #   ...
     # TODO: return True if every bracket in `s` is closed correctly and in the right
     #   order. The brackets are ( ) [ ] { }. (Hint: a list used as a stack works well.)
-    pass
+    pairs = {
+        "(":")",
+        "[":"]",
+        "{":"}"
+    }
+    tempStack = []
+
+    for i in range(len(s)):
+        if s[i] in pairs:
+            tempStack.append(s[i])
+
+        else:
+            if len(tempStack) == 0:
+                return False
+            elif not pairs[tempStack.pop()] == s[i]:
+                return False
+
+    if len(tempStack) > 0:
+        return False
+    return True
+
 
 
 def main():
     # Optional scratch space - try your functions here, then run: python lab09.py
     # print(two_sum([2, 7, 11, 15], 9))   # [0, 1]
+    print(is_balanced('(]'))
     pass
 
 
